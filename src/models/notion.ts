@@ -23,7 +23,7 @@ export class Notion {
       filter: {
         or: [
           {
-            property: "Book Name",
+            property: "Kindle name",
             text: {
               equals: bookName,
             },
