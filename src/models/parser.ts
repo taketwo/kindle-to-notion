@@ -5,7 +5,7 @@ import { writeToFile, readFromFile } from "../utils";
 export class Parser {
   private fileName = "My Clippings.txt";
   private regex =
-    /(.+) \((.+)\)\r*\n- Your Highlight on (Location|page)( |(.+))([0-9]+)-([0-9]+) \| Added on ([a-zA-Z]+), ([a-zA-Z]+) ([0-9]+), ([0-9]+) ([0-9]+):([0-9]+):([0-9]+) (AM|PM)\r*\n\r*\n(.+)\r*\n/gm;
+    /(.+)\r*\n- Your Highlight on (Location|page)( |(.+))([0-9]+)-([0-9]+) \| Added on ([a-zA-Z]+), ([a-zA-Z]+) ([0-9]+), ([0-9]+) ([0-9]+):([0-9]+):([0-9]+) (AM|PM)\r*\n\r*\n(.+)\r*\n/gm;
   private splitter = /=+\r*\n/gm;
   private nonUtf8 = /\uFEFF/gmu;
   private clippings: Clipping[] = [];
@@ -32,19 +32,11 @@ export class Parser {
   addToClippingsArray = (match: RegExpExecArray | null) => {
     if (match) {
       const title = match[1];
-      let author = match[2];
-      const location = `${match[6]}-${match[7]}`;
-      const date = `${match[8]}, ${match[9]} ${match[10]}, ${match[11]}`;
-      const time = `${match[12]}:${match[13]}:${match[14]} ${match[15]}`;
-      const highlight = match[16];
-
-      // If the author name contains comma, fix it
-      if (author.includes(",")) {
-        const names = author
-          .split(",")
-          .map((name) => name.replace(/^\s*|\s*$/g, ""));
-        author = `${names[1]} ${names[0]}`;
-      }
+      const author = "";
+      const location = `${match[5]}-${match[6]}`;
+      const date = `${match[7]}, ${match[8]} ${match[9]}, ${match[10]}`;
+      const time = `${match[11]}:${match[12]}:${match[13]} ${match[14]}`;
+      const highlight = match[15];
 
       this.clippings.push({ title, author, location, date, time, highlight });
     }
