@@ -58,23 +58,24 @@ export class Notion {
               bookId,
               makeBlocks(book.highlights, BlockType.quote)
             );
+            updateSync(book);
           } else {
-            console.log(`📚 Book not present, creating notion page`);
-            const createPageParams: CreatePageParams = {
-              parentDatabaseId: process.env.BOOK_DB_ID as string,
-              properties: {
-                title: book.title,
-                author: book.author,
-                bookName: book.title,
-              },
-              children: makeHighlightsBlocks(book.highlights, BlockType.quote),
-              icon: Emoji["🔖"],
-            };
+            console.log(`📚 Book not present, create notion page to sync`);
+            // const createPageParams: CreatePageParams = {
+              // parentDatabaseId: process.env.BOOK_DB_ID as string,
+              // properties: {
+                // title: book.title,
+                // author: book.author,
+                // bookName: book.title,
+              // },
+              // children: makeHighlightsBlocks(book.highlights, BlockType.quote),
+              // icon: Emoji["🔖"],
+            // };
             // if the book page doesn't exist in notion, create a new notion page for the book
-            await this.notion.createPage(createPageParams);
+            // await this.notion.createPage(createPageParams);
           }
           // after each book is successfully synced, update the sync metadata (cache)
-          updateSync(book);
+          // updateSync(book);
         }
         console.log("\n✅ Successfully synced highlights to Notion");
       } else {
