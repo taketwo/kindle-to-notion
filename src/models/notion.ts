@@ -18,7 +18,7 @@ async function createNewbookHighlights(title: string, author: string, highlights
       author: author,
       bookName: title,
     },
-    children: makeHighlightsBlocks(highlights, BlockType.quote),
+    children: makeHighlightsBlocks(highlights, BlockType.bulleted_list_item),
     icon: Emoji["🔖"],
   }
   await notionInstance.createPage(createPageParams);
@@ -76,7 +76,7 @@ export class Notion {
             if(book.highlights.length <= 100) {
               await this.notion.appendBlockChildren(
                 bookId,
-                makeBlocks(book.highlights, BlockType.quote)
+                makeBlocks(book.highlights, BlockType.bulleted_list_item)
               );
             } else {
               // handle pagination if there are more than 100 highlights
@@ -84,7 +84,7 @@ export class Notion {
               while(highlightsTracker < book.highlights.length) {
                 await this.notion.appendBlockChildren(
                   bookId,
-                  makeBlocks(book.highlights.slice(highlightsTracker, highlightsTracker+99), BlockType.quote)
+                  makeBlocks(book.highlights.slice(highlightsTracker, highlightsTracker+99), BlockType.bulleted_list_item)
                 );
                 highlightsTracker+=99;
               }
